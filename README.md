@@ -107,66 +107,66 @@ Savings Report
 
 ## Architecture
 
-                     ┌──────────────────────────┐
-                    │   EventBridge Scheduler   │
-                    │   (Daily / Weekly Cron)    │
-                    └─────────────┬──────────────┘
+                    ┌──────────────────────────┐
+                    │   EventBridge Scheduler  │
+                    │   (Daily / Weekly Cron)  │
+                    └─────────────┬────────────┘
                                   │
                                   ▼
                     ┌──────────────────────────┐
-                    │        AWS Lambda         │
-                    │   CostShield v2.0 Engine  │
-                    │      Python + Boto3       │
-                    └─────────────┬──────────────┘
+                    │        AWS Lambda        │
+                    │   CostShield v2.0 Engine │
+                    │      Python + Boto3      │
+                    └─────────────┬────────────┘
                                   │
                                   ▼
                     ┌──────────────────────────┐
-                    │     Configuration Layer    │
-                    │  DRY_RUN | RETENTION_DAYS  │
-                    │  COST_PER_GB | LOG_LEVEL   │
-                    └─────────────┬──────────────┘
+                    │     Configuration Layer  │
+                    │  DRY_RUN | RETENTION_DAYS│
+                    │  COST_PER_GB | LOG_LEVEL │
+                    └─────────────┬────────────┘
                                   │
                                   ▼
                     ┌──────────────────────────┐
-                    │          IAM Role          │
-                    │   Least-Privilege Access   │
-                    └─────────────┬──────────────┘
+                    │          IAM Role        │
+                    │   Least-Privilege Access │
+                    └─────────────┬────────────┘
                                   │
                                   ▼
                     ┌──────────────────────────┐
-                    │     AWS Resource Layer     │
-                    │ EC2 API | EBS Vols/Snaps   │
-                    │           AMIs             │
-                    └──────────┬───────┬──────────┘
+                    │     AWS Resource Layer   │
+                    │ EC2 API | EBS Vols/Snaps │
+                    │           AMIs           │
+                    └──────────┬───────┬───────┘
                                │       │
                   ┌────────────┘       └────────────┐
-                  ▼                                  ▼
+                  ▼                                 ▼
        ┌────────────────────┐            ┌────────────────────┐
-       │   Volume Scanner    │            │  Snapshot Scanner   │
-       │ Unattached EBS Vols │            │  Aged EBS Snapshots │
-       └──────────┬───────────┘            └──────────┬───────────┘
-                  │                                    │
-                  ▼                                    ▼
-       ┌────────────────────┐            ┌────────────────────┐
-       │  Detect Orphan      │            │  AMI Scan            │
-       │  EBS Volumes        │            │  Skip AMI-backed     │
-       │                     │            │  Snapshots (Protected)│
-       └──────────┬───────────┘            └──────────┬───────────┘
-                  │                                    │
-                  └─────────────────┬──────────────────┘
+       │   Volume Scanner   │            │  Snapshot Scanner  │
+       │ Unattached EBS Vols│            │  Aged EBS Snapshots│
+       └──────────┬─────────┘            └──────────┬─────────┘
+                  │                                 │
+                  ▼                                 ▼
+       ┌────────────────────┐            ┌───────────────────────┐
+       │  Detect Orphan     │            │  AMI Scan             │
+       │  EBS Volumes       │            │  Skip AMI-backed      │
+       │                    │            │  Snapshots (Protected)│
+       └──────────┬─────────┘            └──────────┬────────────┘
+                  │                                 │
+                  └─────────────────┬───────────────┘
                                     ▼
-                    ┌──────────────────────────┐
+                    ┌────────────────────────────┐
                     │        FinOps Engine       │
                     │  Monthly + Annual Savings  │
-                    │  Cost Reports | DRY_RUN     │
-                    │       Validation            │
+                    │  Cost Reports | DRY_RUN    │
+                    │       Validation           │
                     └─────────────┬──────────────┘
                                   │
                   ┌───────────────┴───────────────┐
-                  ▼                                ▼
+                  ▼                               ▼
        ┌────────────────────┐          ┌────────────────────┐
-       │  EC2 / EBS Cleanup   │          │  CloudWatch Logs    │
-       │ (if DRY_RUN=False)   │          │  Metrics & Alerts    │
+       │  EC2 / EBS Cleanup │          │  CloudWatch Logs   │
+       │ (if DRY_RUN=False) │          │  Metrics & Alerts  │
        └────────────────────┘          └────────────────────┘
 
 ---
