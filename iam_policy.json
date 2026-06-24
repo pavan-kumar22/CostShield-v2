@@ -1,0 +1,17 @@
+{
+  "Version": "2012-10-17",
+  "Statement": [
+    {
+      "Sid": "CostShieldPermissions",
+      "Effect": "Allow",
+      "Action": [
+        "ec2:DescribeVolumes",
+        "ec2:DeleteVolume",
+        "ec2:DescribeSnapshots",
+        "ec2:DeleteSnapshot",
+        "ec2:DescribeImages"
+      ],
+      "Resource": "*"
+    }
+  ]
+}
