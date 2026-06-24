@@ -102,26 +102,6 @@ CloudWatch Logs
 ↓
 
 Savings Report
----
-## Architecture Diagram
-
-                  EventBridge Scheduler
-                           │
-                           ▼
-                  AWS Lambda (CostShield)
-                           │
-          ┌────────────────┴────────────────┐
-          ▼                                 ▼
-  Volume Scanner                    Snapshot Scanner
-          │                                 │
-          └──────────────┬──────────────────┘
-                         ▼
-                   FinOps Engine
-                         │
-             Monthly & Annual Savings
-                         │
-                         ▼
-                 CloudWatch Logs
 
 ---
 
