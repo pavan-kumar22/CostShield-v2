@@ -105,6 +105,28 @@ Savings Report
 
 ---
 
+## Architecture
+
+EventBridge Scheduler
+          |
+          v
+AWS Lambda (CostShield)
+          |
+    ----------------
+    |              |
+    v              v
+Volume Scanner   Snapshot Scanner
+    |              |
+    ----------------
+          |
+          v
+      FinOps Engine
+          |
+          v
+     CloudWatch Logs
+
+---
+
 ## Future Improvements
 
 - S3 Cleanup
